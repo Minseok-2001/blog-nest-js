@@ -13,9 +13,11 @@ datasource db {
 
 model User {
   id       Int      @id @default(autoincrement())
-  name     String
+  kakaoId  String?  @db.VarChar(256)
+  googleId String?  @db.VarChar(256)
+  name     String   
   email    String   @unique
-  password String
+  password String?   
   posts    Post[]
   comments Comment[]
 }

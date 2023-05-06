@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `User` ADD COLUMN `googleId` VARCHAR(256) NULL,
+    ADD COLUMN `kakaoId` VARCHAR(256) NULL;
