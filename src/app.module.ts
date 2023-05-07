@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
       load: [jwtConfig],
       isGlobal: true,
     }),
+    PostsModule,
   ],
   controllers: [],
   providers: [PrismaService],
