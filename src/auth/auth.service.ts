@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
   async register(createUserDto: CreateUserDto) {
     const { email, password } = createUserDto;
     const existingUser = await this.usersService.findUserByEmail(email);
+
     if (existingUser) {
       return null;
     }
