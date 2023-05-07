@@ -10,7 +10,6 @@ export class AuthController {
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto);
-    console.log(user);
     if (!user) {
       throw new UnauthorizedException();
     }
