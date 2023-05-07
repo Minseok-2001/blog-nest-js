@@ -5,11 +5,16 @@ import {
   BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { createSecretKey } from 'crypto';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -19,14 +24,16 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Invalid format');
     }
 
-    const token = authorizationHeader.slice(7, authorizationHeader.length);
+    const secretKey = this.configService.get<string>('jwt.secretKey');
 
+    const token = authorizationHeader.slice(7, authorizationHeader.length);
     try {
-      const decoded = this.jwtService.verify(token);
-      request.id = decoded;
+      const decoded = this.jwtService.verify(token, { secret: secretKey });
+      request.id = decoded.id;
 
       return true;
     } catch (err) {
+      console.log(err);
       return false;
     }
   }
