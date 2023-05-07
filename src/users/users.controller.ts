@@ -32,12 +32,15 @@ export class UsersController {
   }
 
   @Put()
-  public updateUser(@Body() dto: UpdateUserDto) {
-    return this.usersService.updateUser(dto);
+  public updateUser(
+    @CurrentUser() { id }: CurrentUserDto,
+    @Body() dto: UpdateUserDto,
+  ) {
+    return this.usersService.updateUser(dto, id);
   }
 
   @Delete()
-  public deleteUser(@Query() id: number) {
+  public deleteUser(@CurrentUser() { id }: CurrentUserDto) {
     return this.usersService.deleteUser(id);
   }
 }
