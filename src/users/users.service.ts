@@ -15,6 +15,12 @@ export class UsersService {
     return user;
   }
 
+  public async findUserByEmail(email: string) {
+    return this.prisma.user.findFirst({
+      where: { email },
+    });
+  }
+
   public async createUser({ name, email, password }: CreateUserDto) {
     const createUser = await this.prisma.user.create({
       data: { name, email, password },
