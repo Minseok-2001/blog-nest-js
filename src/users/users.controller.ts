@@ -7,18 +7,22 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from 'src/common/guard/auth.guard';
+import { CurrentUser } from 'src/common/decorator/current-user.decorator';
+import { CurrentUserDto } from './dto/current-user.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get(':id')
-  public findUserByUserId(@Param() id: number) {
-    console.log(id);
+  @UseGuards(AuthGuard)
+  @Get()
+  public findUserByUserId(@CurrentUser() { id }: CurrentUserDto) {
     return this.usersService.getUserByUserId(id);
   }
 
