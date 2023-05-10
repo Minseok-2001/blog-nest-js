@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { CurrentUserDto } from 'src/users/dto/current-user.dto';
@@ -22,6 +22,15 @@ export class PostsController {
     @Body() dto: CreatePostDto,
   ) {
     console.log(id);
+    return this.postsService.createPost(id, dto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Put()
+  public updatePost(
+    @CurrentUser() { id }: CurrentUserDto,
+    @Body() dto: CreatePostDto,
+  ) {
     return this.postsService.createPost(id, dto);
   }
 }
