@@ -13,6 +13,13 @@ async function bootstrap() {
     }),
   );
 
+  const corsOptions = {
+    origin: ['http://localhost:3001'],
+    credentials: true,
+  };
+
+  app.enableCors(corsOptions);
+
   await app.listen(8000);
 }
 bootstrap();
