@@ -12,7 +12,12 @@ export class PostsController {
   @UseGuards(AuthGuard)
   @Get()
   public findPostsByUserId(@CurrentUser() { id }: CurrentUserDto) {
-    return this.postsService.findPostsByUserId(id);
+    return this.postsService.getPostsByUserId(id);
+  }
+
+  @Get()
+  public findAllPosts() {
+    return this.postsService.getAllPosts();
   }
 
   @UseGuards(AuthGuard)

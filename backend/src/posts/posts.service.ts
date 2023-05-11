@@ -7,10 +7,14 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async findPostsByUserId(id: number) {
+  public async getPostsByUserId(id: number) {
     return this.prisma.post.findMany({
       where: { authorId: id },
     });
+  }
+
+  public async getAllPosts() {
+    return this.prisma.post.findMany();
   }
 
   public async createPost(authorId: number, { title, content }: CreatePostDto) {
