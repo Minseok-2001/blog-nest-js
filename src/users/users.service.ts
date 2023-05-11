@@ -15,7 +15,7 @@ export class UsersService {
     return user;
   }
 
-  public async findUserByEmail(email: string) {
+  public async getUserByEmail(email: string) {
     return this.prisma.user.findFirst({
       where: { email },
     });

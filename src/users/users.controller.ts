@@ -22,7 +22,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get()
-  public findUserByUserId(@CurrentUser() { id }: CurrentUserDto) {
+  public getUserByUserId(@CurrentUser() { id }: CurrentUserDto) {
     return this.usersService.getUserByUserId(id);
   }
 
