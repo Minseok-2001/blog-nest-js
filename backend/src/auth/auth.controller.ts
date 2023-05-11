@@ -1,4 +1,11 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UnauthorizedException,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -25,7 +32,7 @@ export class AuthController {
     const user = await this.authService.login(loginUserDto);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new NotFoundException('user not found');
     }
 
     const token = this.authService.generateToken(user.id);
