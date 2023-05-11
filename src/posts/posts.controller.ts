@@ -21,7 +21,6 @@ export class PostsController {
     @CurrentUser() { id }: CurrentUserDto,
     @Body() dto: CreatePostDto,
   ) {
-    console.log(id);
     return this.postsService.createPost(id, dto);
   }
 
