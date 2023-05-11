@@ -19,24 +19,30 @@ export class AuthService {
     if (existingUser) {
       return null;
     }
+
     const hashedPassword = await hash(password, 10);
     const user = await this.usersService.createUser({
       ...createUserDto,
       password: hashedPassword,
     });
+
     return user;
   }
 
   async login(loginUserDto: LoginUserDto) {
     const { email, password } = loginUserDto;
     const user = await this.usersService.getUserByEmail(email);
+
     if (!user?.password) {
       return null;
     }
+
     const passwordMatches = compare(password, user.password);
+
     if (!passwordMatches) {
       return null;
     }
+
     return user;
   }
 

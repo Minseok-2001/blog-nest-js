@@ -10,20 +10,26 @@ export class AuthController {
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto);
+
     if (!user) {
       throw new UnauthorizedException();
     }
+
     const token = this.authService.generateToken(user.id);
+
     return { token };
   }
 
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto) {
     const user = await this.authService.login(loginUserDto);
+
     if (!user) {
       throw new UnauthorizedException();
     }
+
     const token = this.authService.generateToken(user.id);
+
     return { token };
   }
 }
