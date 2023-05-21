@@ -27,9 +27,9 @@ export class PostsService {
     });
   }
 
-  public async updatePost(id: number, { title, content }: UpdatePostDto) {
+  public async updatePost(pid: number, { title, content }: UpdatePostDto) {
     return this.prisma.post.update({
-      where: { id },
+      where: { pid },
       data: {
         title,
         content,

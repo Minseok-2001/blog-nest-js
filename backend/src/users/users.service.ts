@@ -7,9 +7,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async getUserByUserId(id: number) {
+  public async getUserByUserId(uid: number) {
     const user = await this.prisma.user.findUnique({
-      where: { id },
+      where: { uid },
     });
 
     return user;
@@ -31,11 +31,11 @@ export class UsersService {
 
   public async updateUser(
     { name, email, password }: UpdateUserDto,
-    id: number,
+    uid: number,
   ) {
     const updateUserInfo = await this.prisma.user.update({
       where: {
-        id,
+        uid,
       },
       data: { name, email, password },
     });
@@ -43,9 +43,9 @@ export class UsersService {
     return updateUserInfo;
   }
 
-  public async deleteUser(id: number) {
+  public async deleteUser(uid: number) {
     const deletedUser = await this.prisma.user.delete({
-      where: { id },
+      where: { uid },
     });
 
     return deletedUser;
