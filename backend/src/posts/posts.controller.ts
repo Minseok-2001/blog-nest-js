@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { CurrentUserDto } from 'src/users/dto/current-user.dto';
@@ -11,8 +20,8 @@ export class PostsController {
 
   @UseGuards(AuthGuard)
   @Get()
-  public findPostsByUserId(@CurrentUser() { id }: CurrentUserDto) {
-    return this.postsService.getPostsByUserId(id);
+  public findPostsByUserId(@CurrentUser() { uid }: CurrentUserDto) {
+    return this.postsService.getPostsByUserId(uid);
   }
 
   @Get()
@@ -23,18 +32,27 @@ export class PostsController {
   @UseGuards(AuthGuard)
   @Post()
   public createPost(
-    @CurrentUser() { id }: CurrentUserDto,
+    @CurrentUser() { uid }: CurrentUserDto,
     @Body() dto: CreatePostDto,
   ) {
-    return this.postsService.createPost(id, dto);
+    return this.postsService.createPost(uid, dto);
   }
 
   @UseGuards(AuthGuard)
   @Put()
   public updatePost(
-    @CurrentUser() { id }: CurrentUserDto,
+    @CurrentUser() { uid }: CurrentUserDto,
     @Body() dto: CreatePostDto,
   ) {
-    return this.postsService.createPost(id, dto);
+    return this.postsService.createPost(uid, dto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete()
+  public deletePost(
+    @CurrentUser() { uid }: CurrentUserDto,
+    @Param('pid') pid: number,
+  ) {
+    return this.postsService.deletePost(pid, uid);
   }
 }
