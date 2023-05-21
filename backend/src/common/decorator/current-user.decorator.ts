@@ -5,7 +5,7 @@ export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): CurrentUserDto => {
     const request = ctx.switchToHttp().getRequest();
     return {
-      id: request.id,
+      uid: request.id,
     };
   },
 );

@@ -22,8 +22,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get()
-  public getUserByUserId(@CurrentUser() { id }: CurrentUserDto) {
-    return this.usersService.getUserByUserId(id);
+  public getUserByUserId(@CurrentUser() { uid }: CurrentUserDto) {
+    return this.usersService.getUserByUserId(uid);
   }
 
   @Post()
@@ -33,14 +33,14 @@ export class UsersController {
 
   @Put()
   public updateUser(
-    @CurrentUser() { id }: CurrentUserDto,
+    @CurrentUser() { uid }: CurrentUserDto,
     @Body() dto: UpdateUserDto,
   ) {
-    return this.usersService.updateUser(dto, id);
+    return this.usersService.updateUser(dto, uid);
   }
 
   @Delete()
-  public deleteUser(@CurrentUser() { id }: CurrentUserDto) {
-    return this.usersService.deleteUser(id);
+  public deleteUser(@CurrentUser() { uid }: CurrentUserDto) {
+    return this.usersService.deleteUser(uid);
   }
 }

@@ -9,15 +9,15 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Get()
-  getCommentsByUserId(@CurrentUser() { id }: CurrentUserDto) {
-    return this.commentsService.getCommentsByUserId(id);
+  getCommentsByUserId(@CurrentUser() { uid }: CurrentUserDto) {
+    return this.commentsService.getCommentsByUserId(uid);
   }
 
   @Post()
   createComment(
-    @CurrentUser() { id }: CurrentUserDto,
+    @CurrentUser() { uid }: CurrentUserDto,
     @Body() dto: CreateCommentDto,
   ) {
-    return this.commentsService.createComment(id, dto);
+    return this.commentsService.createComment(uid, dto);
   }
 }
