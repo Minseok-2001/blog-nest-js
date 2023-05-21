@@ -19,7 +19,7 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @UseGuards(AuthGuard)
-  @Get()
+  @Get('me')
   public findPostsByUserId(@CurrentUser() { uid }: CurrentUserDto) {
     return this.postsService.getPostsByUserId(uid);
   }
@@ -30,7 +30,7 @@ export class PostsController {
   }
 
   @UseGuards(AuthGuard)
-  @Post()
+  @Post('me')
   public createPost(
     @CurrentUser() { uid }: CurrentUserDto,
     @Body() dto: CreatePostDto,
@@ -39,16 +39,17 @@ export class PostsController {
   }
 
   @UseGuards(AuthGuard)
-  @Put()
+  @Put(':pid')
   public updatePost(
     @CurrentUser() { uid }: CurrentUserDto,
+    @Param('pid') pid: number,
     @Body() dto: CreatePostDto,
   ) {
-    return this.postsService.createPost(uid, dto);
+    return this.postsService.updatePost(pid, uid, dto);
   }
 
   @UseGuards(AuthGuard)
-  @Delete()
+  @Delete(':pid')
   public deletePost(
     @CurrentUser() { uid }: CurrentUserDto,
     @Param('pid') pid: number,

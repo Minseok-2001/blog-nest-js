@@ -27,7 +27,24 @@ export class PostsService {
     });
   }
 
-  public async updatePost(pid: number, { title, content }: UpdatePostDto) {
+  public async updatePost(
+    pid: number,
+    uid: number,
+    { title, content }: UpdatePostDto,
+  ) {
+    const post = await this.prisma.post.findUnique({
+      where: { pid },
+      select: { authorId: true },
+    });
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    if (post.authorId !== uid) {
+      throw new Error('Unauthorized to delete this post');
+    }
+
     return this.prisma.post.update({
       where: { pid },
       data: {
@@ -37,9 +54,9 @@ export class PostsService {
     });
   }
 
-  async deletePost(postId: number, userId: number) {
+  async deletePost(pid: number, uid: number) {
     const post = await this.prisma.post.findUnique({
-      where: { pid: postId },
+      where: { pid },
       select: { authorId: true },
     });
 
@@ -47,12 +64,12 @@ export class PostsService {
       throw new Error('Post not found');
     }
 
-    if (post.authorId !== userId) {
+    if (post.authorId !== uid) {
       throw new Error('Unauthorized to delete this post');
     }
 
     return this.prisma.post.delete({
-      where: { pid: postId },
+      where: { pid },
     });
   }
 }
