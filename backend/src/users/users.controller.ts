@@ -31,6 +31,7 @@ export class UsersController {
     return this.usersService.createUser(dto);
   }
 
+  @UseGuards(AuthGuard)
   @Put()
   public updateUser(
     @CurrentUser() { uid }: CurrentUserDto,
@@ -39,6 +40,7 @@ export class UsersController {
     return this.usersService.updateUser(dto, uid);
   }
 
+  @UseGuards(AuthGuard)
   @Delete()
   public deleteUser(@CurrentUser() { uid }: CurrentUserDto) {
     return this.usersService.deleteUser(uid);
