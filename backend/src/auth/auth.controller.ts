@@ -22,7 +22,7 @@ export class AuthController {
       throw new UnauthorizedException();
     }
 
-    const token = this.authService.generateToken(user.uid);
+    const token = this.authService.generateAccessToken(user.uid);
 
     return { token };
   }
@@ -35,7 +35,7 @@ export class AuthController {
       throw new NotFoundException('user not found');
     }
 
-    const token = this.authService.generateToken(user.uid);
+    const token = this.authService.generateAccessToken(user.uid);
 
     return { token };
   }
