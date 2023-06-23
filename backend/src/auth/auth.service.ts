@@ -42,7 +42,7 @@ export class AuthService {
       throw new NotFoundException('wrong password');
     }
 
-    const passwordMatches = compare(password, user.password);
+    const passwordMatches = await compare(password, user.password);
 
     if (!passwordMatches) {
       throw new BadRequestException('not matched password');
