@@ -9,12 +9,14 @@ import { compare, hash } from 'bcrypt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async register(createUserDto: CreateUserDto) {
@@ -51,8 +53,27 @@ export class AuthService {
     return user;
   }
 
-  generateAccessToken(userId: number) {
+  async generateToken(userId: number) {
+    const accessToken = this.generateAccessToken(userId);
+    const refreshToken = await this.generateRefreshToken(userId);
+
+    return { accessToken, refreshToken };
+  }
+
+  private generateAccessToken(userId: number) {
     const payload = { id: userId };
     return this.jwtService.sign(payload);
+  }
+
+  private async generateRefreshToken(userId: number) {
+    const payload = { id: userId };
+
+    return this.jwtService.sign(
+      { id: payload.id },
+      {
+        secret: this.configService.getOrThrow<string>('jwt.secretKey'),
+        expiresIn: this.configService.getOrThrow<string>('jwt.expiresIn'),
+      },
+    );
   }
 }
