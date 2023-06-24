@@ -15,22 +15,27 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/common/guard/auth.guard';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { CurrentUserDto } from './dto/current-user.dto';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({
+    summary: '유저 정보 조회',
+  })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get()
   public getUserByUserId(@CurrentUser() { uid }: CurrentUserDto) {
     return this.usersService.getUserByUserId(uid);
   }
 
-  @Post()
-  public createUser(@Body() dto: CreateUserDto) {
-    return this.usersService.createUser(dto);
-  }
-
+  @ApiOperation({
+    summary: '유저 정보 수정',
+  })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Put()
   public updateUser(
@@ -40,6 +45,10 @@ export class UsersController {
     return this.usersService.updateUser(dto, uid);
   }
 
+  @ApiOperation({
+    summary: '유저 delete',
+  })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Delete()
   public deleteUser(@CurrentUser() { uid }: CurrentUserDto) {
