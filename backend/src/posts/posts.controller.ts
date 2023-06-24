@@ -13,11 +13,14 @@ import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { CurrentUserDto } from 'src/users/dto/current-user.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { AuthGuard } from 'src/common/guard/auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('posts')
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('me')
   public findPostsByUserId(@CurrentUser() { uid }: CurrentUserDto) {
@@ -29,6 +32,7 @@ export class PostsController {
     return this.postsService.getAllPosts();
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Post('me')
   public createPost(
@@ -38,6 +42,7 @@ export class PostsController {
     return this.postsService.createPost(uid, dto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Put(':pid')
   public updatePost(
@@ -48,6 +53,7 @@ export class PostsController {
     return this.postsService.updatePost(pid, uid, dto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Delete(':pid')
   public deletePost(
