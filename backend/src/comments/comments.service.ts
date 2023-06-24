@@ -12,7 +12,11 @@ export class CommentsService {
     });
   }
 
-  async createComment(id: number, { content, postId }: CreateCommentDto) {
+  async createComment(
+    id: number,
+    postId: number,
+    { content }: CreateCommentDto,
+  ) {
     return this.prisma.comment.create({
       data: {
         authorId: id,

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { CurrentUserDto } from 'src/users/dto/current-user.dto';
@@ -20,8 +20,9 @@ export class CommentsController {
   @Post()
   createComment(
     @CurrentUser() { uid }: CurrentUserDto,
+    @Param('postId') postId: number,
     @Body() dto: CreateCommentDto,
   ) {
-    return this.commentsService.createComment(uid, dto);
+    return this.commentsService.createComment(uid, postId, dto);
   }
 }
